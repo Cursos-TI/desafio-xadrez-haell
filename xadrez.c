@@ -1,131 +1,158 @@
 #include <stdio.h>
 
-// Desafio de Xadrez - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
-// O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
-
-int main()
+// Recursiva para a Torre (direita)
+void moverTorre(int atual, int destino)
 {
-
-    int NUM_CASAS = 1;      // Representa o número de casas no tabuleiro de xadrez
-    int destino_torre = 5;  // Posição final da Torre
-    int destino_bispo = 5;  // Posição final do Bispo
-    int destino_rainha = 8; // Posição final da Rainha
-
-    // Nível Novato - Movimentação das Peças
-
-    // Implementação de Movimentação da Torre
-    for (NUM_CASAS; NUM_CASAS <= destino_torre; NUM_CASAS++)
+    if (atual == 1)
     {
+        printf("TORRE direita 1 casa\n");
+    }
+    else if (atual <= destino)
+    {
+        printf("TORRE direita + 1 casa \n");
+    }
 
-        // Contando as casas
-        if (NUM_CASAS == 1)
+    if (atual == destino)
+    {
+        printf("TORRE movimentou %d casas a direita. \n", destino);
+        return;
+    }
+
+    moverTorre(atual + 1, destino);
+}
+
+// Recursiva para o Bispo (diagonal cima-direita)
+void moverBispo(int atual, int destino)
+{
+    if (atual == 1)
+    {
+        printf("BISPO cima - direita 1 casa\n");
+    }
+    else if (atual <= destino)
+    {
+        printf("BISPO cima - direita + 1 casa \n");
+    }
+
+    if (atual == destino)
+    {
+        printf("BISPO movimentou %d casas na diagonal (cima - direita). \n", destino);
+        return;
+    }
+
+    moverBispo(atual + 1, destino);
+}
+
+// Loops aninhados para o Bispo (extra)
+void moverBispoComLoops(int destino)
+{
+    printf("\n[LOOPS ANINHADOS - BISPO]\n");
+    for (int i = 1; i <= destino; i++)
+    {
+        for (int j = 1; j <= 1; j++) // fixa 1 casa horizontal por passo vertical
         {
-            printf("TORRE direita 1 casa\n");
-        }
-        if (NUM_CASAS < destino_torre)
-        {
-            printf("TORRE direita + 1 casa \n");
-        }
-        else
-        {
-            printf("TORRE movimentou %d casas a direita. \n", NUM_CASAS);
+            if (i == 1)
+                printf("BISPO cima - direita 1 casa\n");
+            else if (i < destino)
+                printf("BISPO cima - direita + 1 casa\n");
+            else
+                printf("BISPO movimentou %d casas na diagonal (cima - direita). \n", destino);
         }
     }
-    // Reinicia o número de casas para a próxima peça
-    NUM_CASAS = 1;
-    printf("\n");
+}
 
-    // Implementação de Movimentação do Bispo
-    while (NUM_CASAS <= destino_bispo)
+// Recursiva para a Rainha (esquerda)
+void moverRainha(int atual, int destino)
+{
+    if (atual == 1)
     {
-
-        if (NUM_CASAS == 1)
-        {
-            printf("BISPO cima - direita 1 casa\n");
-        }
-        if (NUM_CASAS < destino_bispo)
-        {
-            printf("BISPO cima - direita + 1 casa \n");
-        }
-        else
-        {
-            printf("BISPO movimentou %d casas na diagonal (cima - direita). \n", NUM_CASAS);
-        }
-        NUM_CASAS++;
+        printf("RAINHA esquerda 1 casa\n");
     }
-    // Reinicia o número de casas para a próxima peça
-    NUM_CASAS = 1;
-    printf("\n");
-
-    // Implementação de Movimentação da Rainha
-    do
+    else if (atual <= destino)
     {
-        if (NUM_CASAS == 1)
-        {
-            printf("RAINHA esquerda 1 casa\n");
-        }
-        if (NUM_CASAS < destino_rainha)
-        {
-            printf("RAINHA esquerda + 1 casa \n");
-        }
-        else
-        {
-            printf("RAINHA movimentou %d casas a esquerda. \n", NUM_CASAS);
-        }
-        NUM_CASAS++;
-    } while (NUM_CASAS <= destino_rainha);
-    // Reinicia o número de casas para a próxima peça
-    NUM_CASAS = 1;
+        printf("RAINHA esquerda + 1 casa \n");
+    }
+
+    if (atual == destino)
+    {
+        printf("RAINHA movimentou %d casas a esquerda. \n", destino);
+        return;
+    }
+
+    moverRainha(atual + 1, destino);
+}
+
+// Cavalo com loops complexos e controle de fluxo
+void moverCavalo()
+{
+    int casas_cima = 2;
+    int casas_direita = 1;
+    int movimento_atual = 0;
+
     printf("\n");
 
-    // Nível AVENTUREIRO - Movimentação do Cavalo
-    // Movimentação do Cavalo
-    int casas_baixo = 2; // Número de casas para baixo
-    int casas_esquerda = 1; // Número de casas para a esquerda
-    int movimento_atual = 0; // Contador para o movimento atual    
-
-    for (int i = 1; i <= casas_baixo; i++)
+    for (int i = casas_cima; i >= 1; i--)
     {
         movimento_atual++;
 
-        if (i == 1)
+        if (i == casas_cima)
         {
-            printf("CAVALO baixo 1 casa(s)\n");
+            printf("CAVALO cima 1 casa(s)\n");
         }
         else
         {
-            printf("CAVALO baixo + 1 casa(s)\n");
+            printf("CAVALO cima + 1 casa(s)\n");
         }
 
-        // Se chegou ao fim do movimento para baixo, faz o movimento para a esquerda
-        if (i == casas_baixo)
+        if (i == 1)
         {
-            int j = 1;
-            while (j <= casas_esquerda)
+            for (int j = 1; j <= casas_direita; j++)
             {
                 if (j == 1)
                 {
-                    printf("CAVALO esquerda 1 casa(s)\n");
+                    printf("CAVALO direita 1 casa(s)\n");
                 }
                 else
                 {
-                    printf("CAVALO esquerda + 1 casa(s)\n");
+                    printf("CAVALO direita + 1 casa(s)\n");
                 }
-                j++;
-                movimento_atual++;
+
+                if (j == casas_direita)
+                {
+                    break;
+                }
             }
         }
     }
 
-    printf("CAVALO movimentou em 'L': %d casa(s) para baixo e %d casa(s) para a esquerda.\n\n", casas_baixo, casas_esquerda);
+    printf("CAVALO movimentou em 'L': %d casa(s) para cima e %d casa(s) para a direita.\n", casas_cima, casas_direita);
+}
 
-    // Nível Mestre - Funções Recursivas e Loops Aninhados
-    // Sugestão: Substitua as movimentações das peças por funções recursivas.
-    // Exemplo: Crie uma função recursiva para o movimento do Bispo.
+int main()
+{
+    int destino_torre = 5;
+    int destino_bispo = 5;
+    int destino_rainha = 8;
 
-    // Sugestão: Implemente a movimentação do Cavalo utilizando loops com variáveis múltiplas e condições avançadas.
-    // Inclua o uso de continue e break dentro dos loops.
+    printf("\n");
+
+    // Torre com Recursão
+    moverTorre(1, destino_torre);
+
+    printf("\n");
+
+    // Bispo com Recursão
+    moverBispo(1, destino_bispo);
+
+    printf("\n");
+
+    // Rainha com Recursão
+    moverRainha(1, destino_rainha);
+
+    // Cavalo com loops complexos
+    moverCavalo();
+
+    // Bispo com Loops Aninhados (extra)
+    moverBispoComLoops(destino_bispo);
 
     return 0;
 }
